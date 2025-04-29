@@ -1,0 +1,8 @@
+/bin/zsh
+
+if [[ $HOSTNAME == "pivot2025-shell" ]]; then
+  export OLLAMA_URL="http://ollama-pivot2025:11434"
+  export ARANGODB_URL="http://arangodb-pivot2025:8529"
+  export QDRANT_URL="http://qdrant-pivot2025:8333"
+fi
+

@@ -1,0 +1,58 @@
+services:
+
+  arangodb:
+    image: arangodb:latest
+    container_name: arangodb-pivot2025
+    restart: always
+    ports:
+      - 127.0.0.1:8529:8529
+    environment:
+      ARANGO_ROOT_PASSWORD: arangoteste
+    volumes:
+      - ./data/arango-data:/var/lib/arangodb3
+
+    networks:
+      - pivot2025-nw
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    restart: always
+    container_name: qdrant-pivot2025
+    ports:
+      - 6333:6333
+      - 6334:6334
+  #  configs:
+  #    - source: qdrant_config
+  #      target: /qdrant/config/production.yaml
+    volumes:
+      - ./data/qdrant-data:/qdrant_data
+    
+    networks:
+      - pivot2025-nw
+
+  ollama-docker:
+    image:  ollama/ollama
+    container_name: ollama-pivot2025
+    restart: unless-stopped
+    volumes:
+    - ./data/models/ollama:/root/.ollama
+    ports:
+    - 127.0.0.1:11434:11434
+    environment:    
+      - LLM_MODEL_VERSION="gemma3:4b" 
+    healthcheck:
+      test: ["CMD", "ollama", "run", "gemma3:4b"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all # alternatively, use `count: all` for all GPUs
+              capabilities: [gpu]
+
+    networks:
+      - pivot2025-nw
+
+networks:
+  pivot2025-nw:
+    external: true

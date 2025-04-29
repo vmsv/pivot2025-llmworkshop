@@ -1,0 +1,11 @@
+transformers
+langchain_text_splitters
+pypdfium2
+fastapi
+uvicorn
+pydantic
+qdrant_client
+python-multipart
+qdrant_client
+httpx
+rigging
