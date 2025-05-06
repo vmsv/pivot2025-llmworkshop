@@ -7,6 +7,6 @@ qdrant_client
 python-multipart
 qdrant_client
 httpx
-rigging>
+rigging
 
 
