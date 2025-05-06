@@ -69,13 +69,19 @@ fi
 
 if [[ $1 == "pull_model" ]]; then
   curl http://localhost:11434/api/pull -d '{"model": "'${2}'"}'
+  curl http://localhost:11433/api/pull -d '{"model": "nomic-embed-text"}'
 fi
 
 if [[ $1 == "start_model" ]]; then
-  docker compose -f ${DOCKERFILES_PATH}/docker-compose.yml exec ollama run $2
+  docker compose -f ${DOCKERFILES_PATH}/docker-compose.yml exec ollama-pivot2025 run $2
   sleep 2
   curl http://0.0.0.0:11434/api/ps | jq
 fi
+
+if [[ $1 == "list_models" ]]; then
+  curl http://0.0.0.0:11434/api/tags | jq
+fi
+
 
 if [[ $1 == "list_running_models" ]]; then
   curl http://0.0.0.0:11434/api/ps | jq

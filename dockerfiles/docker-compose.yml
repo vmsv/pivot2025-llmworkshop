@@ -1,20 +1,6 @@
 services:
 
-  arangodb:
-    image: arangodb:latest
-    container_name: arangodb-pivot2025
-    restart: always
-    ports:
-      - 127.0.0.1:8529:8529
-    environment:
-      ARANGO_ROOT_PASSWORD: arangoteste
-    volumes:
-      - ./data/arango-data:/var/lib/arangodb3
-
-    networks:
-      - pivot2025-nw
-
-  qdrant:
+  qdrant-pivot2025:
     image: qdrant/qdrant:latest
     restart: always
     container_name: qdrant-pivot2025
@@ -30,7 +16,7 @@ services:
     networks:
       - pivot2025-nw
 
-  ollama-docker:
+  ollama-pivot2025:
     image:  ollama/ollama
     container_name: ollama-pivot2025
     restart: unless-stopped
@@ -42,13 +28,37 @@ services:
       - LLM_MODEL_VERSION="gemma3:4b" 
     healthcheck:
       test: ["CMD", "ollama", "run", "gemma3:4b"]
-#    deploy:
-#      resources:
-#        reservations:
-#          devices:
-#            - driver: nvidia
-#              count: all # alternatively, use `count: all` for all GPUs
-#              capabilities: [gpu]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all # alternatively, use `count: all` for all GPUs
+              capabilities: [gpu]
+
+    networks:
+      - pivot2025-nw
+
+  ollama-embed-pivot2025:
+    image:  ollama/ollama
+    container_name: ollama-embed-pivot2025
+    restart: unless-stopped
+    volumes:
+    - ./data/models/ollama-embed:/root/.ollama
+    ports:
+    - 127.0.0.1:11433:11433
+    environment:    
+      - LLM_MODEL_VERSION="nomic-text-embed"
+      - OLLAMA_HOST="http://0.0.0.0:11433"
+    healthcheck:
+      test: ["CMD", "ollama", "run", "nomic-text-embed"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all # alternatively, use `count: all` for all GPUs
+              capabilities: [gpu]
 
     networks:
       - pivot2025-nw

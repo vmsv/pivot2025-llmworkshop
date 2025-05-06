@@ -1,4 +1,3 @@
-transformers
 langchain_text_splitters
 pypdfium2
 fastapi
@@ -8,4 +7,6 @@ qdrant_client
 python-multipart
 qdrant_client
 httpx
-rigging
+rigging>
+
+
