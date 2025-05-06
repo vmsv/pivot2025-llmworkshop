@@ -17,6 +17,19 @@ if ! docker network inspect "$NETWORK_NAME" &>/dev/null; then
   echo "Created docker network \"$NETWORK_NAME\"."
 fi
 
+if [[ $1 == "-h" ]]; then
+  echo "Commands:"
+  echo "  refresh              - Stops removes all docker services pulls new images and rebuilds"
+  echo "  remove_all_for_sure  - Stops removes all containers and all data"
+  echo "  build                - Builds the docker image"
+  echo "  start                - Starts the docker services"
+  echo "  status               - Shows services running"
+  echo "  pull_model           - Requests Ollama to fetch the model name"
+  echo "  start_model          - Requests Ollama to start serving the model"
+  echo "  lists_running_models - Lists the models being served by Ollama"
+  exit 0
+fi
+
 if [[ $1 == "refresh" ]]; then
   docker compose -f ${DOCKERFILES_PATH}/docker-compose.yml stop
   docker compose -f ${DOCKERFILES_PATH}/docker-compose.yml rm

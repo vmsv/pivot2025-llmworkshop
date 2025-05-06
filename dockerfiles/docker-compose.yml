@@ -42,13 +42,13 @@ services:
       - LLM_MODEL_VERSION="gemma3:4b" 
     healthcheck:
       test: ["CMD", "ollama", "run", "gemma3:4b"]
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all # alternatively, use `count: all` for all GPUs
-              capabilities: [gpu]
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - driver: nvidia
+#              count: all # alternatively, use `count: all` for all GPUs
+#              capabilities: [gpu]
 
     networks:
       - pivot2025-nw
