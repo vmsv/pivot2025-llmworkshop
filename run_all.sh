@@ -1,5 +1,6 @@
 #!/bin/zsh
 export DOCKERFILES_PATH="./dockerfiles"
+export NETWORK_NAME="pivot2025-nw"
 
 if [[ $HOSTNAME == "pivot2025-shell" ]]; then
   export OLLAMA_URL="http://ollama-pivot2025:11434"
@@ -9,6 +10,11 @@ fi
 
 if [[ ! -d "./data" ]]; then
   mkdir data
+fi
+
+if ! docker network inspect "$NETWORK_NAME" &>/dev/null; then
+  docker network create $NETWORK_NAME
+  echo "Created docker network \"$NETWORK_NAME\"."
 fi
 
 if [[ $1 == "refresh" ]]; then
