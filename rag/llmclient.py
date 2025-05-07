@@ -15,7 +15,7 @@ class customLLMClient:
         self.url = in_llm_url.rstrip('/')
         self.endpoints = {"rag": f"{self.url}/api/chat", 
                           "ner": f"{self.url}/api/chat",
-                          "embed": f"{self.url}/api/embed"}
+                          "embed": "http://ollama-embed-pivot2025:11433/api/embed"}
         self.debug = in_debug
 
     async def __async_embedding(self, data):
@@ -50,6 +50,7 @@ class customLLMClient:
             response = requests.post(self.endpoints["embed"], json=data)
             if response.status_code == 200:
                 try:
+                    print(response.content)
                     data = json.loads(response.text)
                     return data
                 except:
