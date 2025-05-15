@@ -20,3 +20,13 @@
 * ./run_all.sh start_model gemma3:4b - This will ask Ollama to start serving this model. This should output a JSON like information showing its running.
 * ./pivot2025-shell.sh - This should open a new shell.
 * ./python3 chat_test.py
+
+
+# For RAG tests
+
+* Once inside the shell, go to rag/ and run python app.py
+* From your regular terminal you can now use the client to index and query the system
+* for instance run: python3 rag/client.py -u http://127.0.0.1:8000 -i test_data/talos.pdf
+* Navigate to http://127.0.0.1:6333/dashboard#/collections and you should see the collection with all the embeddings done. This should also be seen in the terminal where you are running the app.py ( kind of debug )
+* Now you can query the system with python3 rag/client -u http://127.0.0.1:8000 -q 'Your query'
+* Play around by indexing more documents and making different queries.
